@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import validateLogin from "./LoginValidation";
 
+// ✅ เพิ่มบรรทัดนี้
+const API_URL = import.meta.env.VITE_API_URL;
+
 function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
@@ -28,7 +31,7 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_URL}/auth/login`, form); // ✅ แก้ตรงนี้
+      const res = await axios.post(`${API_URL}/auth/login`, form);
 
       if (res.data.success) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
