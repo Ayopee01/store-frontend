@@ -5,6 +5,7 @@ import validateLogin from "./LoginValidation";
 
 // ✅ เพิ่มบรรทัดนี้
 const API_URL = import.meta.env.VITE_API_URL;
+console.log("🌐 VITE_API_URL =", API_URL); // ✅ ตรวจสอบว่าถูกต้องหรือ undefined
 
 function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -29,9 +30,11 @@ function LoginForm() {
     }
 
     setLoading(true);
+    console.log("📤 Submitting login with:", form); // ✅ ตรวจสอบค่าที่จะส่ง
 
     try {
       const res = await axios.post(`${API_URL}/auth/login`, form);
+      console.log("✅ Server response:", res.data); // ✅ ดูผลลัพธ์จาก server
 
       if (res.data.success) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -42,6 +45,7 @@ function LoginForm() {
         alert(res.data.message || "Login failed");
       }
     } catch (err) {
+      console.error("❌ Login error:", err.response?.data || err.message); // ✅ log error ชัดเจน
       setErrors({ global: err.response?.data?.message || "Server error" });
     } finally {
       setLoading(false);
